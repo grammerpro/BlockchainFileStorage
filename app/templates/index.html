@@ -1,0 +1,154 @@
+{% extends "base.html" %} {% block content %}
+<style type="text/css">
+    .navbar-item:hover {
+        background-color: #b9293c;
+    }
+
+    /* Title, subtitle, and horizontal line. */
+    .title {
+        margin-top: 3rem;
+        text-align: center;
+        line-height: 1.6rem;
+    }
+
+    .title-text {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .subtitle-text {
+        font-size: 1.6rem;
+        color: #555;
+    }
+
+    .hr {
+        border-style: solid;
+        border-width: 0.08rem;
+        border-color: #8d7f7f;
+        width: 55rem;
+        margin: 2rem auto;
+    }
+
+    /* Buttons, form, and post styling. */
+    .container-fluid {
+        margin-top: 2rem;
+    }
+
+    .btn:hover {
+        background-color: #b92948;
+        cursor: pointer;
+    }
+
+    .form-container {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        border-radius: 0.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .upload-btn {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    /* Post boxes styling */
+    .post_box {
+        background: #e3f2fd;
+        padding: 1.2rem;
+        margin-top: 1rem;
+        border: 0.1rem solid #90a4ae;
+        border-radius: 0.5rem;
+    }
+
+    .post_box-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .post_box-avatar {
+        width: 3.8rem;
+        height: 3.8rem;
+        border-radius: 50%;
+        background: #db3434;
+        color: white;
+        font-size: 2.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1rem;
+    }
+
+    .name-header {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .post_box-body {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .download-link {
+        color: #1976d2;
+        text-decoration: none;
+    }
+
+    .download-link:hover {
+        text-decoration: underline;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-container">
+                <h2 class="text-center mb-4">Upload a File</h2>
+                <form action="/submit" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Name:</label>
+                        <input type="text" class="form-control" name="user" placeholder="Enter Your Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload File:</label>
+                        <input type="file" id="fileUpld" name="v_file" accept=".*" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-success upload-btn">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <h2 class="text-center mb-4">Uploaded Files Below</h2>
+            {% for post in request_tx %}
+            <div class="post_box">
+                <div class="post_box-header">
+                    <div class="post_box-avatar">{{post.user[0]}}</div>
+                    <div class="name-header">{{post.user}}</div>
+                </div>
+                <div class="post_box-body">
+                    <p>{{post.v_file}} &#x2192 <a href="{{url_for('download_file', variable=post.v_file)}}"
+                            class="download-link">Download</a></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-sm-1"></div>
+    </div>
+</div>
+
+{% endblock %}
